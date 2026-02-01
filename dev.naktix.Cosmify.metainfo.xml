@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="addon">
+    <id>dev.naktix.Cosmify</id>
+    <extends>org.pop_os.CosmicPanel</extends>
+    <extends>org.pop_os.CosmicDock</extends>
+    <name>Cosmify</name>
+    <summary>Media player control for COSMIC</summary>
+    <metadata_license>CC0-1.0</metadata_license>
+    <project_license>MIT</project_license>
+    <description>
+        <p>Control your media playback directly from the COSMIC panel or dock.</p>
+        <p>Supports Spotify, VLC, Rhythmbox and browser media via MPRIS.</p>
+    </description>
+    <developer_name>Naktix</developer_name>
+    <url type="homepage">https://github.com/naktix/cosmify</url>
+    <releases>
+        <release version="0.1.0" date="2026-02-01">
+            <description>Initial release</description>
+        </release>
+    </releases>
+</component>

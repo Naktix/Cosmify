@@ -7,6 +7,14 @@ use zbus::{proxy, Connection};
 
 const APP_ID: &str = "dev.naktix.Cosmify";
 
+const PANEL_ROW_HEIGHT: f32 = 32.0;
+const BUTTON_SIZE: f32 = 30.0;
+const PADDING_X: f32 = 6.0;
+const PADDING_Y: f32 = 3.0;
+const TEXT_SIZE: u16 = 12;
+const MAX_TITLE_CHARS: usize = 20;
+const MAX_ARTIST_CHARS: usize = 18;
+
 // Liste der unterstützten Media Player
 const MPRIS_PLAYERS: &[&str] = &[
     "org.mpris.MediaPlayer2.spotify",
@@ -135,27 +143,30 @@ impl cosmic::Application for Cosmify {
     }
 
     fn subscription(&self) -> Subscription<Self::Message> {
-        cosmic::iced::time::every(std::time::Duration::from_secs(2)).map(|_| Message::Tick)
+        cosmic::iced::time::every(std::time::Duration::from_secs(1)).map(|_| Message::Tick)
     }
 
     fn view(&self) -> Element<'_, Self::Message> {
         let buttons = create_control_buttons(self.track_info.is_playing);
-        let track_info = create_track_info_view(&self.track_info);
+        let info_line = create_track_line(&self.track_info);
 
         let content_row = widget::row()
             .push(buttons)
-            .push(track_info)
-            .spacing(16.0)
+            .push(info_line)
+            .spacing(8.0)
             .align_y(Alignment::Center)
-            .height(Length::Fixed(48.0));
+            .height(Length::Fixed(PANEL_ROW_HEIGHT));
 
         let content = widget::container(content_row)
-            .center_x(Length::Fill)
-            .padding([8.0, 8.0, 8.0, 8.0])
+            .padding([PADDING_Y, PADDING_X, PADDING_Y, PADDING_X])
             .width(Length::Fill)
             .height(Length::Shrink);
 
         self.core.applet.popup_container(content).into()
+    }
+    //Dummy view_window
+    fn view_window(&self, _id: cosmic::iced::window::Id) -> Element<'_, Self::Message> {
+        widget::text("").into()
     }
 }
 
@@ -173,7 +184,7 @@ fn create_control_buttons(is_playing: bool) -> widget::Row<'static, Message> {
         ))
         .push(icon_button(play_pause_icon, Message::PlayPause))
         .push(icon_button("media-skip-forward-symbolic", Message::Next))
-        .spacing(8.0)
+        .spacing(6.0)
         .align_y(Alignment::Center)
         .width(Length::Shrink)
 }
@@ -181,16 +192,20 @@ fn create_control_buttons(is_playing: bool) -> widget::Row<'static, Message> {
 fn icon_button<'a>(icon: &'a str, message: Message) -> impl Into<Element<'a, Message>> {
     widget::button::icon(widget::icon::from_name(icon))
         .on_press(message)
-        .width(Length::Fixed(32.0))
-        .height(Length::Fixed(32.0))
+        .width(Length::Fixed(BUTTON_SIZE))
+        .height(Length::Fixed(BUTTON_SIZE))
 }
 
-fn create_track_info_view(track_info: &TrackInfo) -> widget::Column<'static, Message> {
-    widget::column()
-        .push(widget::text(truncate_text(&track_info.title, 25)).size(14))
-        .push(widget::text(truncate_text(&track_info.artist, 20)).size(12))
-        .spacing(2.0)
-        .align_x(Alignment::Start)
+fn create_track_line(track_info: &TrackInfo) -> widget::Row<'static, Message> {
+    let title = truncate_text(&track_info.title, MAX_TITLE_CHARS);
+    let artist = truncate_text(&track_info.artist, MAX_ARTIST_CHARS);
+
+    widget::row()
+        .push(widget::text(title).size(TEXT_SIZE))
+        .push(widget::text(" — ").size(TEXT_SIZE))
+        .push(widget::text(artist).size(TEXT_SIZE))
+        .spacing(6.0)
+        .align_y(Alignment::Center)
         .width(Length::Fill)
 }
 
