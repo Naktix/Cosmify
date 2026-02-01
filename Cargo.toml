@@ -1,0 +1,20 @@
+[package]
+name = "cosmify"
+version = "0.1.0"
+edition = "2021"
+license = "MIT"
+
+[[bin]]
+name = "cosmify"
+path = "src/main.rs"
+
+[dependencies]
+libcosmic = { git = "https://github.com/pop-os/libcosmic.git", features = ["applet"] }
+tokio = { version = "1", features = ["macros", "rt-multi-thread", "time"] }
+zbus = "4.0"
+futures = "0.3"
+serde = { version = "1.0", features = ["derive"] }
+
+[profile.release]
+lto = "fat"
+codegen-units = 1
