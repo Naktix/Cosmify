@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=Application
+Name=Cosmify
+Comment=Media control for COSMIC
+Icon=media-playback-start-symbolic
+Exec=cosmify
+Terminal=false
+Categories=AudioVideo;Audio;COSMIC;
+NoDisplay=true
+X-CosmicApplet=true
