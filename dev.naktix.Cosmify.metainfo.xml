@@ -14,6 +14,13 @@
     <developer_name>Naktix</developer_name>
     <url type="homepage">https://github.com/naktix/cosmify</url>
     <releases>
+        <release version="0.2.0" date="2026-03-08">
+            <description>
+                <p>Refactored codebase into multi-file structure (app, mpris, lib).</p>
+                <p>Added structured logging via tracing.</p>
+                <p>Cleaner UI with AppletIcon button styling.</p>
+            </description>
+        </release>
         <release version="0.1.0" date="2026-02-01">
             <description>Initial release</description>
         </release>
