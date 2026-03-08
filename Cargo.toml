@@ -1,6 +1,6 @@
 [package]
 name = "cosmify"
-version = "0.1.0"
+version = "0.2.0"
 edition = "2021"
 license = "MIT"
 
@@ -14,6 +14,9 @@ tokio = { version = "1", features = ["macros", "rt-multi-thread", "time"] }
 zbus = "4.0"
 futures = "0.3"
 serde = { version = "1.0", features = ["derive"] }
+tracing = "0.1"
+tracing-subscriber = "0.3"
+tracing-log = "0.2"
 
 [profile.release]
 lto = "fat"
